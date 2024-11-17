@@ -1,0 +1,53 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin:0;
+    padding: 0;
+    background-color: black;
+    color:blue;
+}
+
+header{
+    background-color: blue;
+    padding: 10px 0;
+     text-align:center;
+     color:black;
+}
+
+header nav a {
+    color:black;
+    margin:0 15px;
+    text-decoration: none;
+}
+header nav a:hover {
+    color:violet;
+}
+h1,h2,h3,h4 {
+    font-weight: bold;
+}
+button {
+    background-color:black;
+    color:aqua;
+    padding:10px 20px;
+    border:none;
+    transition: background-color 0.5s ease,transform 0.5s ease;
+
+}
+button:hover {
+   background-color: aqua;
+   transform:scale(0.5)
+}
+
+image-contauner img{
+    width: 100%;
+    max-width: 600%;
+    animation:slideln 0.8s ease-in-out;
+    display: block;
+    margin: 20px auto;
+}
+footer{
+    background-color: black;
+    color: aqua;
+    text-align: center;
+    padding:10px 0;
+    margin-top: :20px;
+}
