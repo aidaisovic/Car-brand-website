@@ -1,64 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta name="view" content="width=device-width, initial-scale 1.0">
-    <tittle>BMW</tittle>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW</title>
     <link rel="stylesheet" href="assets/css/main.css">
-    <head>
-        <body>
-            <header>
-                <h1>BMW</h1>
-                <nav>
-                    <a href="index.html">HOME</a>
-                    <a href="about.html">HISTORY</a>
-                    <a href="contact.html">CONTACT US</a>
-                    <a href="registration.html">REGISTRATION</a>
-                </nav>
-            </header>
-            <main>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Impression of our models over the years</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2024</td>
-                            <td>90%</td>
-                        </tr>
-                        <tr>
-                            <td>2023</td>
-                            <td>89%</td>
-                        </tr>
-                        <tr>
-                            <td>2022</td>
-                            <td>86%</td>
-                        </tr>
-                        <tr>
-                            <td>2021</td>
-                            <td>90%</td>
-                        </tr>
-                        <tr>
-                            <td>2020</td>
-                            <td>87%</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <section class="section">
-                    <h3>Live life proudly with BMW</h3>
-                    <p>Drive safely, well and luxuriously</p>
-                    <button class="cta-button">View models</button>
-                </section>
-                
-                <div class="image-container">
-                    <img src="assets/images/bmw-car.jpg" alt="bmw">
+    <style>
+        .gallery img {
+            width: 100px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal img {
+            max-width: 100%;
+            max-height: 80vh;
+        }
+
+        /* FAQ Button Styling */
+        .faq-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .faq-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* FAQ Section Styling */
+        .faq-section {
+            display: none; /* Initially hidden */
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+
+        .faq h3 {
+            margin-top: 0;
+        }
+
+        .faq {
+            margin-bottom: 20px;
+        }
+        /* Default theme (light) */
+body[data-theme='light'] {
+    background-color: white;
+    color: black;
+}
+
+/* Dark theme */
+body[data-theme='dark'] {
+    background-color: black;
+    color: white;
+}
+
+/* Normal font size */
+body[data-font-size='normal'] {
+    font-size: 16px;
+}
+
+/* Large font size */
+body[data-font-size='large'] {
+    font-size: 20px;
+}
+
+/* Buttons for switching themes and font sizes */
+.theme-switcher, .font-size-switcher {
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.theme-switcher:hover, .font-size-switcher:hover {
+    background-color: #45a049;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BMW</h1>
+        <nav>
+            <a href="index.html">HOME</a>
+            <a href="about.html">HISTORY</a>
+            <a href="contact.html">CONTACT US</a>
+            <a href="registration.html">REGISTRATION</a>
+        </nav>
+    </header>
+<button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
+<button class="font-size-switcher" onclick="toggleFontSize()">Switch Font Size</button>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Impression of our models over the years</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024</td>
+                    <td>90%</td>
+                </tr>
+                <tr>
+                    <td>2023</td>
+                    <td>89%</td>
+                </tr>
+                <tr>
+                    <td>2022</td>
+                    <td>86%</td>
+                </tr>
+                <tr>
+                    <td>2021</td>
+                    <td>90%</td>
+                </tr>
+                <tr>
+                    <td>2020</td>
+                    <td>87%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <section class="section">
+            <h3>Live life proudly with BMW</h3>
+            <p>Drive safely, well and luxuriously</p>
+            <button class="faq-btn" onclick="scrollToFAQ()">Go to FAQs</button>
+
+            <!-- Content Section -->
+            <div id="faq-section" class="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+        
+                <div class="faq">
+                    <h3>What payment methods are accepted?</h3>
+                    <p>We accept credit and debit cards, PayPal, and bank transfers for payment.</p>
                 </div>
-            </main>
-            <footer>
-                <p>Foundations of Web Development, Aida Isović</p>
-            </footer>
-        </body>
-    </head>
+        
+                <div class="faq">
+                    <h3>Can I see the models in person?</h3>
+                    <p>Yes, you can visit our stores to see the models in person. You can also schedule an in-store appointment for a personal demonstration.</p>
+                </div>
+        
+                <div class="faq">
+                    <h3>In which cities do you have stores?</h3>
+                    <p>Our stores are located in New York, Los Angeles, Chicago, and San Francisco. Check our store locator for more information.</p>
+                </div>
+            </div>
+
+           
+        </section>
+
+        <h2>Interactive Gallery</h2>
+        <div class="gallery">
+            <img src="assets/images/model.jpg" alt="car" data-full="assets/images/fullsize2.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/model2.jpg" alt="car" data-full="assets/images/fulsize1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/a.jpg" alt="car" data-full="assets/images/a1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/i.jpg" alt="car" data-full="assets/images/i1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/d.jpg" alt="car" data-full="assets/images/d1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/s.jpg" alt="car" data-full="assets/images/s1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/o.jpg" alt="car" data-full="assets/images/o1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/v.jpg" alt="car" data-full="assets/images/v1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/n.jpg" alt="car" data-full="assets/images/n1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/p.jpg" alt="car" data-full="assets/images/p1.jpg" onclick="viewFullImage(this)">
+            <img src="assets/images/r.jpg" alt="car" data-full="assets/images/r1.jpg" onclick="viewFullImage(this)">
+        </div>
+
+        <div class="modal" id="gallery-modal">
+            <img id="modal-img" src="" alt="">
+        </div>
+
+        <div class="image-container">
+            <img src="assets/images/bmw-car.jpg" alt="bmw">
+        </div>
+    </main>
+
+    <footer>
+        <p>Foundations of Web Development, Aida Isović</p>
+    </footer>
+
+    <script>
+        const galleryImages = document.querySelectorAll('.gallery img');
+        const modal = document.getElementById('gallery-modal');
+        const modalImg = document.getElementById('modal-img');
+
+        // Open modal on thumbnail click
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                modal.style.display = 'block';
+                modalImg.src = img.dataset.full;
+            });
+        });
+
+        // Close modal on click
+        modal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Function to toggle visibility of FAQ section and scroll to it
+        function scrollToFAQ() {
+            var faqSection = document.getElementById("faq-section");
+
+            // Toggle visibility of the FAQ section
+            if (faqSection.style.display === "none" || faqSection.style.display === "") {
+                faqSection.style.display = "block"; // Show FAQ
+                window.scrollTo({
+                    top: faqSection.offsetTop - 20, // Scroll to the FAQ section with some space above
+                    behavior: 'smooth' // Smooth scroll
+                });
+            }
+        }
+        function toggleTheme() {
+    const body = document.body;
+    const currentTheme = body.getAttribute('data-theme');
+
+    if (currentTheme === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light'); // Save theme preference
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark'); // Save theme preference
+    }
+}
+
+// Function to toggle font size
+function toggleFontSize() {
+    const body = document.body;
+    const currentSize = body.getAttribute('data-font-size');
+
+    if (currentSize === 'large') {
+        body.setAttribute('data-font-size', 'normal');
+        localStorage.setItem('fontSize', 'normal'); // Save font size preference
+    } else {
+        body.setAttribute('data-font-size', 'large');
+        localStorage.setItem('fontSize', 'large'); // Save font size preference
+    }
+}
+
+// Apply saved preferences on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedFontSize = localStorage.getItem('fontSize') || 'normal';
+
+    document.body.setAttribute('data-theme', savedTheme);
+    document.body.setAttribute('data-font-size', savedFontSize);
+});
+    </script>
+    <script src="theme-switcher.js"></script>
+</body>
 </html>
