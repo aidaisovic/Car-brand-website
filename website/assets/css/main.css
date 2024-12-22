@@ -51,3 +51,37 @@ footer{
     padding:10px 0;
     margin-top: :20px;
 }
+body[data-theme='light'] {
+    background-color: white;
+    color: black;
+}
+
+/* Dark theme */
+body[data-theme='dark'] {
+    background-color: black;
+    color: white;
+}
+
+/* Normal font size */
+body[data-font-size='normal'] {
+    font-size: 16px;
+}
+
+/* Large font size */
+body[data-font-size='large'] {
+    font-size: 20px;
+}
+
+/* Buttons for switching themes and font sizes */
+.theme-switcher, .font-size-switcher {
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.theme-switcher:hover, .font-size-switcher:hover {
+    background-color: #45a049;
+}

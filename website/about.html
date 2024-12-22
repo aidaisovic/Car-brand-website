@@ -1,30 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="view" content="width=device-width, initial-scale=1.0">
-        <title>MODELS</title>
-        <link rel="stylesheet" href="assets/css/main.css">
-    
-    </head>
-    <body>
-        <header>
-            <nav>
-                <a href="index.html">HOME</a>
-                    <a href="about.html">HISTORY</a>
-                    <a href="contact.html">CONTACT US</a>
-                    <a href="registration.html">REGISTRATION</a>
-            </nav>
-        </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW - Car Models</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .car-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .car-details {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+        .car-models-container {
+            text-align: center;
+            margin-top: 30px;
+        }
 
-        <main>
-            <div class="image-container">
-                <img src="assets/images/history.jpg" alt="history">
-            </div>
-            <h3>HISTORY</h3>
-            <p>The history of the BMW Group reaches back to 1916. Today, the four brands BMW, MINI, Rolls-Royce,<p></p> and BMW Motorrad make the BMW Group one of the world’s leading premium <p></p>suppliers of automobiles, motorcycles, as well as mobility services. Since the beginning of its history,<p></p> the company has kept its sight firmly set on the future and has<p></p> consequently put sustainability and efficient resource management into the centre of its strategy. <p></p>The companies automobiles are marketed under the BMW, Mini and Rolls-Royce brands, and motorcycles are<p></p> marketed under the BMW Motorrad brand. Also in 2023, BMW was the world's ninth-largest<p></p> producer of motor vehicles, with 2,555,341 vehicles produced<p></p>and in 2023 the 6th largest by revenue.<p></p> In 2023, the company was ranked 46th in the Forbes Global 2000. The company has significant<p></p> motor-sport history, especially in touring cars, sports cars, and the Isle of Man TT.<p></p>
+        .car-models-container input {
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
 
-                <p></p>BMW is headquartered in Munich and produces motor vehicles in Germany, the United Kingdom, the Netherlands (ceased in 2023),<p></p> the United States, Brazil, Mexico, South Africa, India and China. <p></p>The Quandt family is a long-term shareholder of the company, <p></p>following investments by the brothers Herbert and Harald Quandt in 1959 <p></p>that saved BMW from bankruptcy, with the remaining shares owned by the public. </p>
-        </main>
-    </body>
+        .car-models-container button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #car-results {
+            margin-top: 20px;
+        }
+
+        #car-results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #car-results li {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">HOME</a>
+            <a href="about.html">HISTORY</a>
+            <a href="contact.html">CONTACT US</a>
+            <a href="registration.html">REGISTRATION</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="image-container">
+            <img src="assets/images/history.jpg" alt="history">
+        </div>
+        <h3>HISTORY</h3>
+        <p>The history of the BMW Group reaches back to 1916. Today, the four brands BMW, MINI, Rolls-Royce, and BMW Motorrad make the BMW Group one of the world’s leading premium suppliers of automobiles, motorcycles, as well as mobility services. Since the beginning of its history, the company has kept its sight firmly set on the future and has consequently put sustainability and efficient resource management into the center of its strategy.</p>
+        <p>BMW is headquartered in Munich and produces motor vehicles in Germany, the United Kingdom, the Netherlands, the United States, Brazil, Mexico, South Africa, India, and China. The Quandt family is a long-term shareholder of the company, following investments by the brothers Herbert and Harald Quandt in 1959 that saved BMW from bankruptcy.</p>
+
+        <!-- View More Button -->
+        <a href="bmw-history-detail.html" class="view-more-btn">View More</a>
+
+        <!-- New Section for Car Models API -->
+        <div class="car-models-container">
+            <h3>Explore Car Models</h3>
+            <input type="text" id="car-make" placeholder="Enter car make (e.g., BMW)">
+            <button onclick="fetchCarModels()">Get Car Models</button>
+            <div id="car-results"></div>
+        </div>
+    </main>
+
+    <script>
+        function fetchCarModels() {
+            const carMake = document.getElementById('car-make').value;
+            const carResultsContainer = document.getElementById('car-results');
+            const errorMessage = document.createElement('p');
+
+            // Provjera je li korisnik unio marku
+            if (!carMake) {
+                carResultsContainer.innerHTML = '<p>Please enter a car make.</p>';
+                return;
+            }
+
+            // Slanje zahtjeva API-ju za podatke o automobilima
+            fetch(`https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=${carMake}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Ako nema podataka
+                    if (data.models && data.models.length > 0) {
+                        let modelsHtml = '<h4>Models:</h4><ul>';
+                        data.models.forEach(model => {
+                            modelsHtml += `<li>${model.model_name} (${model.model_year})</li>`;
+                        });
+                        modelsHtml += '</ul>';
+                        carResultsContainer.innerHTML = modelsHtml;
+                    } else {
+                        errorMessage.textContent = `No models found for ${carMake}. Please try another make.`;
+                        carResultsContainer.innerHTML = '';
+                        carResultsContainer.appendChild(errorMessage);
+                    }
+                })
+                .catch(error => {
+                    errorMessage.textContent = 'Error fetching data. Please try again later.';
+                    carResultsContainer.innerHTML = '';
+                    carResultsContainer.appendChild(errorMessage);
+                });
+        }
+    </script>
+</body>
 </html>

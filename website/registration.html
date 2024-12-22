@@ -1,33 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-    <meta charset="UTF-8">
-    <meta name="view" content="width=device-width, initial-scale 1.0">
-    <tittle>BMW</tittle>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <head>
-        <body>
-            <header>
-                <h1>BMW</h1>
-                <nav>
-                    <a href="index.html">HOME</a>
-                    <a href="about.html">HISTORY</a>
-                    <a href="contact.html">CONTACT US</a>
-                    <a href="registration.html">REGISTRATION</a>
-                </nav>
-            </header>
-            <main>
-                <h2>If you are interested in any of our car models and would eventually purchase any, please register</h2>
-                <h3>Register here</h3>
-                <form>
-                    <label for="name">NAME</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="mail">YOUR EMAIL</label>
-                    <input type="text" id="email" name="email" required>
-                    <label for="pnum">YOUR PHONE NUMBER</label>
-                    <input type="text" id="pnum" name="pnum" required>
+<title>BMW</title>
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+    #success-message {
+        display: none; /* Sakrivena poruka dok ne bude uspeha */
+        color: green; /* Zelena boja za uspeh */
+        margin-top: 10px;
+        font-weight: bold;
+    }
 
-                    <button type="submit">SUBMIT YOUR INFO</button>
-                </form>
-            </main>
-        </body>
-    </html>
+    #blog-posts {
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    .blog-post {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .blog-post h3 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .blog-post p {
+        margin: 5px 0;
+        line-height: 1.6;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>BMW</h1>
+    <nav>
+        <a href="index.html">HOME</a>
+        <a href="about.html">HISTORY</a>
+        <a href="contact.html">CONTACT US</a>
+        <a href="registration.html">REGISTRATION</a>
+    </nav>
+</header>
+<main>
+    <h2>If you are interested in any of our car models and would eventually purchase any, please register</h2>
+    <h3>Register here</h3>
+    <form id="registration-form">
+        <label for="name">NAME</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">YOUR EMAIL</label>
+        <input type="email" id="email" name="email" required>
+        <label for="phone">YOUR PHONE NUMBER</label>
+        <input type="text" id="phone" name="phone" required>
+
+        <button type="submit">SUBMIT YOUR INFO</button>
+    </form>
+
+    <div id="success-message">
+        <p>Your information has been successfully submitted!</p>
+    </div>
+</main>
+
+<section id="blog-posts">
+    <h2>Latest Blog Posts</h2>
+    <div id="posts-container"></div>
+</section>
+
+<script>
+    // Fetching blog posts
+    document.addEventListener('DOMContentLoaded', () => {
+        const postsContainer = document.getElementById('posts-container');
+
+        // Fetch content from the JSON file
+        fetch('content.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Generate and display content
+                data.forEach(post => {
+                    const postElement = document.createElement('article');
+                    postElement.classList.add('blog-post');
+                    postElement.innerHTML = `
+                        <h3>${post.title}</h3>
+                        <p><strong>By:</strong> ${post.author} | <strong>Date:</strong> ${post.date}</p>
+                        <p>${post.content}</p>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            })
+            .catch(error => {
+                postsContainer.innerHTML = `<p>Error loading content: ${error.message}</p>`;
+            });
+    });
+
+    // Form submission handling with AJAX
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Sprečava podrazumevano slanje forme
+
+        // Prikupljanje podataka iz forme
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value
+        };
+
+        // Simulacija čuvanja podataka (AJAX zahtev)
+        fetch('save-data-url', { // Zameniti 'save-data-url' pravim URL-om servera ili API-ja
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(() => {
+            // Prikaz poruke o uspehu
+            document.getElementById('success-message').style.display = 'block';
+            // Resetovanje forme
+            document.getElementById('registration-form').reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Došlo je do greške prilikom čuvanja podataka. Pokušajte ponovo.');
+        });
+    });
+</script>
+</body>
+</html>
